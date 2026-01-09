@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Storm & Mr. Sun-kissed</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+
+        :root {
+            --bg-color: #1a1a2e;
+            --text-color: #e0e0e0;
+            --accent-purple: #4a3b69;
+            --glass-bg: rgba(20, 20, 30, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Lora', serif;
+            overflow-x: hidden;
+            transition: background-color 2s ease;
+        }
+
+        /* --- 1. Red String of Fate (Progress Bar) --- */
+        .red-string-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 1000;
+        }
+        .red-string {
+            height: 100%;
+            width: 0%;
+            background: #b91d1d; /* Deep Red */
+            box-shadow: 0 0 10px #b91d1d;
+            transition: width 0.1s;
+        }
+
+        /* --- 2. Lightning Effect --- */
+        .lightning-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 50;
+            mix-blend-mode: overlay;
+        }
+        .flash { animation: flash 0.2s ease-out; }
+        @keyframes flash {
+            0% { opacity: 0; }
+            50% { opacity: 0.3; }
+            100% { opacity: 0; }
+        }
+
+        /* --- Rain Animation --- */
+        .rain-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(circle at center, transparent 0%, #000 120%);
+        }
+        .drop {
+            position: absolute; bottom: 100%; width: 1px; height: 60px;
+            pointer-events: none;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.3));
+            animation: fall linear infinite;
+        }
+        @keyframes fall { to { transform: translateY(120vh); } }
+
+        /* --- Layout --- */
+        .content {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px 20px 150px 20px;
+        }
+
+        section {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+            transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+            margin-bottom: 20px;
+        }
+        section.visible { opacity: 1; transform: translateY(0) scale(1); }
+
+        /* --- 4. Foggy Glass Cards --- */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(8px); /* The foggy glass effect */
+            -webkit-backdrop-filter: blur(8px);
+            padding: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            position: relative;
+            overflow: hidden;
+        }
+        /* Shine effect on card */
+        .card::before {
+            content: ''; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        p {
+            font-size: 1.25rem; line-height: 1.9; margin-bottom: 25px;
+            color: #ccc; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .handwritten {
+            font-family: 'Caveat', cursive; font-size: 2rem; color: #aeb8c9;
+            display: block; margin-bottom: 15px;
+        }
+
+        .dialogue {
+            border-left: 3px solid #6d5b94; padding-left: 20px;
+            font-style: italic; font-size: 1.4rem; margin: 30px 0; color: #fff;
+            background: linear-gradient(90deg, rgba(109, 91, 148, 0.1), transparent);
+        }
+
+        /* --- 3. Kinetic Typography Effects --- */
+        .word-blur { filter: blur(2px); color: #889; transition: filter 1s; }
+        .word-blur:hover { filter: blur(0px); color: #fff; }
+
+        .word-shake { display: inline-block; animation: shake 0.1s infinite; }
+        @keyframes shake { 0% { transform: translate(1px, 1px); } 100% { transform: translate(-1px, -1px); } }
+
+        .word-thump { font-weight: bold; color: #fff; font-size: 1.2em; display: inline-block; animation: thump 1s ease-out; }
+        @keyframes thump { 0% { transform: scale(3); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+        .word-gold { color: #ffd700; text-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+        
+        .pulse-container { animation: heartbeat 2s infinite; }
+        @keyframes heartbeat {
+            0% { box-shadow: 0 10px 40px rgba(0,0,0,0.6); border-color: rgba(255,255,255,0.1); }
+            50% { box-shadow: 0 10px 50px rgba(109, 20, 20, 0.3); border-color: rgba(185, 29, 29, 0.3); }
+            100% { box-shadow: 0 10px 40px rgba(0,0,0,0.6); border-color: rgba(255,255,255,0.1); }
+        }
+
+        @media (max-width: 600px) {
+            .content { padding: 10px; }
+            .card { padding: 25px; backdrop-filter: blur(5px); }
+            p { font-size: 1.15rem; }
+        }
+
+        /* --- New Addition: The Paper Note --- */
+        .paper-note {
+            background-color: #fdfbf7;
+            color: #333;
+            padding: 25px;
+            margin: 20px 0;
+            font-family: 'Caveat', cursive; /* Uses the handwritten font you already imported */
+            font-size: 1.6rem;
+            line-height: 1.4;
+            transform: rotate(-1deg);
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+            border-radius: 2px;
+            position: relative;
+        }
+        /* Make it look like a torn piece of paper */
+        .paper-note::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+            pointer-events: none;
+        }
+
+        /* --- Fire/Heat Text Effect --- */
+        .word-burn {
+            color: #ffaaaa;
+            text-shadow: 0 0 8px rgba(255, 100, 100, 0.8);
+            animation: burn 2s infinite alternate;
+        }
+        @keyframes burn {
+            0% { text-shadow: 0 0 5px rgba(255, 100, 100, 0.6); }
+            100% { text-shadow: 0 0 15px rgba(255, 50, 50, 0.9), 0 0 25px rgba(255, 0, 0, 0.4); }
+        }
+
+        /* --- Final Choice Box --- */
+        .choice-box {
+            border: 1px solid rgba(185, 29, 29, 0.5);
+            background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(50, 0, 0, 0.2));
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+            border-radius: 4px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Red String Progress -->
+    <div class="red-string-container">
+        <div class="red-string" id="redString"></div>
+    </div>
+
+    <!-- Background Elements -->
+    <div class="lightning-overlay" id="lightning"></div>
+    <div class="rain-container" id="rain"></div>
+
+    <div class="content">
+        
+        <!-- Page 1 -->
+        <section class="story-segment" data-mood="purple">
+            <div class="card">
+                <span class="handwritten">The beginning...</span>
+                <p>The sky has been bruised purple all afternoon, indicating a storm. The final bell rings, corridor floods with the usual chaos. But today is different...</p>
+                <p>As you step outside, the first heavy drops of rain begin to fall on your hand; and within seconds, it’s not a shower, but a <span class="word-thump">furious</span>, scary downpour. The kind that turns the world into a <span class="word-blur">gray, blurry watercolor painting</span>.</p>
+            </div>
+        </section>
+
+        <!-- Page 2 -->
+        <section class="story-segment" data-mood="dark">
+            <div class="card">
+                <p>You put your bag over your head, yet knowing the fact that you are going to be soaked. You don't have an umbrella. You never do when it's important.</p>
+                <p>You take a step out from under the school's shed, ready to go in the cold...</p>
+                <p>...but the rain never hits you.</p>
+                <p>A shadow has fallen over you. You look up. A huge, black umbrella is now a silent shield above your head. You don't have to turn to know who it is.</p>
+            </div>
+        </section>
+
+        <!-- Page 3 -->
+        <section class="story-segment" data-mood="electric">
+            <div class="card">
+                <p>The air is suddenly <span class="word-gold">electric</span>, you feel the goosebumps, smelling of rain and something else... something that one could only know after hundreds of glances, the <span style="color:#b91d1d; font-style:italic;">red string of fate</span>.</p>
+                <p>You turn slowly. It is him.</p>
+                <span class="handwritten word-gold">Mr. Sun-kissed.</span>
+                <p>The moment you saw him, it felt like the world around you slowed down. He doesn't say a word. He gives a gentle smile. His eyes... those deep, empathetic Pisces eyes...</p>
+            </div>
+        </section>
+
+        <!-- Page 4 -->
+        <section class="story-segment" data-mood="intense">
+            <div class="card">
+                <p>They are fixed on you, but you know they are not soft right now. They are dark. Intense.</p>
+                <p>He just stands there holding the umbrella over both of you, a space where only you & him exists.</p>
+                <div class="dialogue">"Come on"</div>
+                <p>he says gently but his voice a low rumble under the sound of rain.</p>
+                <p>You start walking. The two of you squeezed under the umbrella, so close that your shoulder brush with him every step. You can feel the warmth radiating from him.</p>
+            </div>
+        </section>
+
+        <!-- Page 5 -->
+        <section class="story-segment" data-mood="blur">
+            <div class="card">
+                <p>The world outside is a <span class="word-blur">blur</span> of gray & flashing headlights, but inside your little space, everything is quiet except your own heart hammering in chest.</p>
+                <p>You risk a glance up at him. He isn't looking ahead. He is looking at you. He is watching the way the raindrops clings to your hair tips like tiny diamonds. He's watching the way you <span class="word-shake">shiver</span>... he knows it's not just cold.</p>
+                <p>You finally reach the bus stop. It was empty. <span class="emphasis">This is it.</span></p>
+            </div>
+        </section>
+
+        <!-- Page 6 -->
+        <section class="story-segment" data-mood="thump">
+            <div class="card">
+                <span class="handwritten">This is where the moment ends... or so you thought.</span>
+                <p>You start to pull away to thank him, to escape back where you were.</p>
+                <p>He doesn't let you.</p>
+                <p>He takes one step closer, closing the umbrella with sharp <span class="word-thump">THUMP</span> noise, & suddenly the sound of rain is all around you again. He has trapped you against the wall of the bus stop, one hand braced against the glass behind your head.</p>
+                <p>He is so close, you can feel his breath, see the real storm swirling in his eyes.</p>
+            </div>
+        </section>
+
+        <!-- Page 7 -->
+        <section class="story-segment" data-mood="desperate">
+            <div class="card">
+                <p>It happened so suddenly that you froze there.</p>
+                <div class="dialogue">"You drive me crazy, you know that?"</div>
+                <p>he whispers, and it sounds like an accusation. "The way laugh with other boys. The way you act like you don't feel me watching you."</p>
+                <p>You can barely breath. You couldn't process what to say. His gaze drops to your lips. You see the muscle in his jaw, biting & clenching. He's fighting himself and he is looking desperate.</p>
+            </div>
+        </section>
+
+        <!-- Page 8 -->
+        <section class="story-segment" data-mood="kiss">
+            <div class="card">
+                <div class="dialogue">"I can't do this anymore"</div>
+                <p>he says, more to himself than to you.</p>
+                <p>He grabs your face with his other hand, leans & in no time he is kissing you. It's not soft. It is not gentle. It's a <span class="word-thump">collision</span> between the lips who were trying to get this exact feel.</p>
+                <p>It's everything he hadn't said in months, all stolen glances, all silent jealousy, all the protective energy, crash into you at once.</p>
+                <p>It tastes like... you know, your lips are touching his, its going, he's not stopping. His soft fluffy lips is onto you right now.</p>
+            </div>
+        </section>
+
+        <!-- Page 9 -->
+        <section class="story-segment" data-mood="claim">
+            <div class="card">
+                <p>One of his hands come up to cradle the back of your neck; his fingers tangling in your hairs, holding you in place like he is afraid you will <span class="word-blur">disappear</span>.</p>
+                <p>He is not just kissing you, he is <span class="word-gold" style="font-weight:bold;">claiming</span> you.</p>
+                <p>He is stealing breath from your lungs & giving his. The intense warmth that's coming from the kiss is... undeniable.</p>
+                <p>He pulls back, just an inch, his forehead resting against yours. You are both breathing hard, the rain covering his skin.</p>
+            </div>
+        </section>
+
+        <!-- Page 10 -->
+        <section class="story-segment" data-mood="soft">
+            <div class="card">
+                <p>You are holding his collar. Eyes still closed.</p>
+                <p>Then, the Pisces in him resurfaces. The possessiveness softens just for a second, into that empathy you fell in love with. His thumb gently brushes your lower lip, which is still wet from his kiss.</p>
+                <div class="dialogue">"Are you cold?"</div>
+                <p>he asks, his voice now softer, like worried murmur.</p>
+                <p>Before you answer, he gives you his coat. From the distance your drive can be seen. Before you go...</p>
+            </div>
+        </section>
+
+        <!-- Page 11 (Existing End of Previous Part) -->
+        <section class="story-segment" data-mood="end">
+            <div class="card">
+                <p>...he leans in and give you one last, soft kiss. A promise.</p>
+                <div class="dialogue">"I will see you tomorrow"</div>
+                <p>he says & whispers <span class="word-gold">"You are mine now."</span></p>
+                <p>And then he is gone, disappearing back into the rain, leaving you drenched, breathless & marked by him.</p>
+                <p>Leaving you to think if tomorrow will be normal. But finally he has claimed you.</p>
+            </div>
+        </section>
+
+        <!-- NEW CONTENT STARTS HERE -->
+
+        <!-- Page 12: The Classroom -->
+        <section class="story-segment" data-mood="soft">
+            <div class="card">
+                <span class="handwritten">The next day...</span>
+                <p>Your heart is a <span class="word-shake">hummingbird</span> trapped in your ribs. You try to focus on the teacher's lecture, but it’s just white noise. Every nerve in your body is screamingly aware of him.</p>
+                <p>The way his pen scratches against the paper. The quiet sound of his breathing. The ghost of his lips still burned onto yours from the night before.</p>
+                <p>That smile he gave you... it was worse than an intense stare. It was a secret, a quiet confirmation between two people in a room full of strangers. It said, <span style="font-style: italic; color: #aeb8c9;">"I remember everything. And I know you do too."</span></p>
+            </div>
+        </section>
+
+        <!-- Page 13: The Note -->
+        <section class="story-segment" data-mood="purple">
+            <div class="card">
+                <p>You force yourself to look at the board, your cheeks burning. You can't handle this. The silence is too loud.</p>
+                <p>Just as you think you are going to explode from the tension, something appears in your peripheral vision. A small, folded piece of paper, appearing on the edge of your desk as if by magic.</p>
+                <p>Your fingers tremble as you pick it up. You unfold it under your desk. The handwriting is rushed, but you'd recognize it anywhere:</p>
+                
+                <div class="paper-note">
+                    "Did you sleep well? Or were you up all night thinking about the rain?"
+                </div>
+
+                <p>Your breath catches. <span class="word-gold">"The rain."</span> That’s what he’s calling it. A secret code for the storm that happened between you.</p>
+            </div>
+        </section>
+
+        <!-- Page 14: The Knee Touch -->
+        <section class="story-segment" data-mood="electric">
+            <div class="card">
+                <p>A few minutes later, you feel a presence beside you. You don't have to look. He moved. He didn't ask. He just picked up his chair and his books, and now he is sitting right next to you.</p>
+                <p>The air between you is thick, <span class="word-gold">electric</span>. You are both staring straight ahead, pretending to listen to the lesson, but this is a different kind of class now.</p>
+                <p>Then you feel it.</p>
+                <p>The subtle, deliberate pressure of his <span class="word-thump">knee</span> brushing against yours under the desk. It’s not an accident. He lets it rest there. It’s a quiet, possessive touch in a room where everyone can see you, but no one knows what is really happening.</p>
+                <p>It's a current of electricity running straight from his leg to yours. He is marking his territory. He is reminding you who you belong to.</p>
+            </div>
+        </section>
+
+        <!-- Page 15 (Existing End of Previous Part) -->
+        <section class="story-segment" data-mood="intense">
+            <div class="card">
+                <p>You can't move. You can't breathe.</p>
+                <p>He leans in, his head close to yours, as if he is about to ask a question about the lesson. The scent of rain and <i>him</i> fills your senses again. His voice is a low, dangerous whisper, meant only for you.</p>
+                <div class="dialogue">"Stay after class. Meet me at the bus stop. We need to talk."</div>
+                <p>Just as he pulls away, the bell rings, sharp and loud, shattering the moment. He stands up, gives you one last, quick, unreadable glance, and disappears into the crowd.</p>
+                <p>Leaving you to wonder... what happens when the <span class="word-blur" style="color: #b91d1d;">storm</span> returns?</p>
+            </div>
+        </section>
+
+        <!-- NEW CONTENT STARTS HERE -->
+
+        <!-- Page 16: The Reunion -->
+        <section class="story-segment" data-mood="soft">
+            <div class="card">
+                <span class="handwritten">Later at the bus stop...</span>
+                <div class="dialogue">"You came."</div>
+                <p>He breathes out. It’s not a statement; it’s a relief. The tension in his shoulders drops just an inch.</p>
+                <p>"I told myself you wouldn't," he says quietly, looking at his shoes then back at you. "That I scared you off."</p>
+                <p>You shake your head, wanting to speak, but your voice is stuck in your throat. He takes a step closer. The distance between you is gone. The air isn't cold anymore; it’s <span class="word-burn">warm</span> with the heat radiating off him.</p>
+            </div>
+        </section>
+
+        <!-- Page 17: The Touch -->
+        <section class="story-segment" data-mood="purple">
+            <div class="card">
+                <p>He doesn't trap you against the wall this time. He doesn't have to. You are frozen to the spot by his gaze alone.</p>
+                <p>He reaches out, his hand hovering for a second before his fingers brush against your cheek. It’s a feather-light touch, completely opposite to the desperate grip from yesterday.</p>
+                <p>His thumb traces the line of your jaw, his eyes following the movement as if he’s <span class="word-blur">memorizing</span> you.</p>
+                <div class="dialogue">"I couldn't sleep."</div>
+                <p>He admits, his voice rough. "Every time I closed my eyes, I was back here. With you. Tasting the rain on your skin."</p>
+            </div>
+        </section>
+
+        <!-- Page 18: The Vulnerability -->
+        <section class="story-segment" data-mood="intense">
+            <div class="card">
+                <p>Your heart skips a beat. He leans in, his forehead resting against yours again, recreating the moment of the storm even though the sky is clear.</p>
+                <div class="dialogue">"I need to know."</div>
+                <p>He whispers, his eyes squeezing shut for a moment as if he's in pain. "Was yesterday just the adrenaline? Was it just the storm?"</p>
+                <p>He pulls back just enough to look into your eyes, searching deep into your soul. The vulnerability in his face breaks your heart and makes it race at the same time.</p>
+            </div>
+        </section>
+
+        <!-- Page 19: The Confession -->
+        <section class="story-segment" data-mood="electric">
+            <div class="card">
+                <p>"Because for me..." He pauses, his jaw clenching again and holding you more tightly.</p>
+                <p>"For me, it was the only thing that has made sense in a long time. I don't want to just steal kisses in the rain. I want to be the reason you <span class="word-gold">smile</span> in class. I want to be the one you look for when you walk into a room."</p>
+                <p>He waits, his hand still cupping your face. He is the storm, but right now, he is waiting for you to decide if you want to step into it.</p>
+            </div>
+        </section>
+
+        <!-- Page 20: The Ultimatum -->
+        <section class="story-segment" data-mood="dark">
+            <div class="card">
+                <div class="dialogue">"Tell me to stop."</div>
+                <p>He says, his voice low and dangerous. "Tell me you didn't feel it too. And I'll walk away."</p>
+                <p>The silence stretches, heavy and thick. He’s daring you to lie. He knows you can't.</p>
+                
+                <div class="choice-box">
+                    <span class="handwritten" style="color: #fff;">So... do you tell him to stop?</span>
+                    <br><br>
+                    <span class="word-thump">Or do you tell him the truth?</span>
+                </div>
+            </div>
+        </section>
+        
+    </div> <!-- Closing div for .content -->
+
+    <script>
+        // Rain Generator
+        function createRain() {
+            const rainContainer = document.getElementById('rain');
+            const dropCount = 120;
+
+            for (let i = 0; i < dropCount; i++) {
+                const drop = document.createElement('i');
+                drop.classList.add('drop');
+                drop.style.left = Math.random() * 100 + 'vw';
+                drop.style.animationDuration = Math.random() * 1 + 0.5 + 's';
+                drop.style.animationDelay = Math.random() * 2 + 's';
+                drop.style.opacity = Math.random();
+                rainContainer.appendChild(drop);
+            }
+        }
+        createRain();
+
+        // 2. Scroll Progress (Red String)
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (scrollTop / scrollHeight) * 100;
+            document.getElementById('redString').style.width = scrolled + '%';
+        });
+
+        // 3. Lightning Generator
+        const lightning = document.getElementById('lightning');
+        function triggerLightning() {
+            lightning.classList.add('flash');
+            setTimeout(() => {
+                lightning.classList.remove('flash');
+            }, 300);
+            
+            // Randomize next lightning (between 5s and 15s)
+            const nextTime = Math.random() * 10000 + 5000;
+            setTimeout(triggerLightning, nextTime);
+        }
+        // Start lightning loop
+        setTimeout(triggerLightning, 3000);
+
+        // Scroll Observer for Fade In and Mood Changes
+        const sections = document.querySelectorAll('section');
+        const body = document.body;
+        const rainContainer = document.getElementById('rain');
+
+        const observerOptions = {
+            threshold: 0.3
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Dynamic Mood Changing based on data-mood attribute
+                    const mood = entry.target.getAttribute('data-mood');
+                    
+                    if (mood === 'purple') {
+                        rainContainer.style.background = 'linear-gradient(to bottom, #241e33, #1a1a2e)';
+                    } else if (mood === 'electric') {
+                        rainContainer.style.background = 'linear-gradient(to bottom, #1e2a33, #111)';
+                    } else if (mood === 'intense' || mood === 'thump') {
+                        rainContainer.style.background = 'linear-gradient(to bottom, #000, #1a0505)';
+                    } else if (mood === 'soft') {
+                        rainContainer.style.background = 'linear-gradient(to bottom, #2d2433, #1a1a2e)';
+                    }
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
