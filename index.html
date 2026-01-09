@@ -200,6 +200,29 @@
             border-radius: 4px;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
+        /* --- Shatter Effect (Heartbreak) --- */
+        .word-shatter { 
+            display: inline-block; 
+            color: #a0a0a0;
+            transition: all 0.5s;
+        }
+        .word-shatter:hover {
+            transform: skewX(20deg) scaleY(0.8);
+            letter-spacing: 5px;
+            opacity: 0.6;
+        }
+
+        /* --- Lift Effect (Physical movement) --- */
+        .word-lift { 
+            display: inline-block; 
+            font-weight: bold;
+            color: #ffd700;
+            animation: liftUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
+        }
+        @keyframes liftUp { 
+            0% { transform: translateY(0); } 
+            100% { transform: translateY(-10px) scale(1.1); } 
+        }
     </style>
 </head>
 <body>
@@ -420,7 +443,7 @@
             </div>
         </section>
 
-        <!-- Page 20: The Ultimatum -->
+        <!-- Page 20 (Existing End of Previous Part) -->
         <section class="story-segment" data-mood="dark">
             <div class="card">
                 <div class="dialogue">"Tell me to stop."</div>
@@ -432,6 +455,80 @@
                     <br><br>
                     <span class="word-thump">Or do you tell him the truth?</span>
                 </div>
+            </div>
+        </section>
+
+        <!-- NEW CONTENT STARTS HERE -->
+
+        <!-- Page 21: The Fracture -->
+        <section class="story-segment" data-mood="rain">
+            <div class="card">
+                <p>He takes your silence for rejection. The hope in his eyes <span class="word-shatter">fractures</span>, replaced by a dull, aching resignation. He nods, once, a sharp, painful movement.</p>
+                <p>His hand drops from your face, and the loss of his warmth feels like ice water splashed over your skin.</p>
+                <div class="dialogue">"Okay... okay."</div>
+                <p>He whispers, his voice breaking. He turns to leave. He actually takes a step away, back towards the empty road. Back towards a life where you are just strangers.</p>
+            </div>
+        </section>
+
+        <!-- Page 22: The Panic -->
+        <section class="story-segment" data-mood="electric">
+            <div class="card">
+                <p>Panic, sharp and sudden, pierces through your chest. The fear of him leaving is so much stronger than the fear of the storm.</p>
+                <div class="dialogue">"Don't."</div>
+                <p>You breathe out. It comes out as a squeak, but he freezes. You take a step forward. You don't think; you just react. You reach out and grab the fabric of his shirt, his collar, bunching it in your fist, anchoring him to you. You pull him back, hard.</p>
+                <p>He spins around, his eyes wide, confusion conflicting with hope.</p>
+            </div>
+        </section>
+
+        <!-- Page 23: The Truth -->
+        <section class="story-segment" data-mood="intense">
+            <div class="card">
+                <p>"I can't," you say, your voice gaining strength. You look right into those deep, dark Pisces eyes. "I can't tell you to stop. Because I don't want you to."</p>
+                <p>The air leaves the space between you.</p>
+                <p>"Say it," he growls, stepping back into your space, his hands finding your waist. "Tell me you feel it. Tell me I’m not crazy."</p>
+                <p>"It wasn't just the rain," you confess, your heart hammering against your ribs. "It wasn't just the adrenaline. You... you are everywhere. In the quiet moments. In the noise. I look for you too."</p>
+            </div>
+        </section>
+
+        <!-- Page 24: The Lift -->
+        <section class="story-segment" data-mood="thump">
+            <div class="card">
+                <p>A sound rips from his throat—half-laugh, half-groan. The restraint snaps.</p>
+                <p>He doesn't ask this time. He doesn't hesitate. He <span class="word-lift">sweeps you up</span>—literally lifts you off the ground—so that you are eye-level with him. Your legs instinctively wrap around his waist, locking you together.</p>
+                <div class="dialogue">"Good."</div>
+                <p>He breathes against your lips. "Because I was never going to let you go anyway."</p>
+                <p>And then he kisses you.</p>
+            </div>
+        </section>
+
+        <!-- Page 25: The Devouring -->
+        <section class="story-segment" data-mood="kiss">
+            <div class="card">
+                <p>If yesterday was a collision, this... this is a <span class="word-burn">devouring</span>. It is raw, desperate, and terrifyingly beautiful. He kisses you like a man starving, like he is trying to breathe you in and keep you there.</p>
+                <p>His hands grip you tighter, possessing you, grounding you. You bury your hands in his hair, pulling him closer, melting into the heat of him.</p>
+                <p>There is no rain today, but you are drowning anyway. Drowning in him.</p>
+            </div>
+        </section>
+
+        <!-- Page 26: The Promise -->
+        <section class="story-segment" data-mood="soft">
+            <div class="card">
+                <p>He breaks the kiss, gasping for air, but he doesn't put you down. He rests his forehead against yours, a wild, conquering grin breaking across his face. The sun-kissed boy is back, but now he is burning bright just for you.</p>
+                <p>"You're in trouble now," he whispers, his voice vibrating through your chest. "You told me the truth. Now I'm never leaving you alone."</p>
+                <p>He kisses the tip of your nose, then your cheek, lingering there.</p>
+            </div>
+        </section>
+
+        <!-- Page 27: The End -->
+        <section class="story-segment" data-mood="end">
+            <div class="card">
+                <div class="dialogue">"Let's go."</div>
+                <p>He says, shifting your weight easily in his arms.</p>
+                <p>"But where?" you ask, breathless.</p>
+                <p>He looks at you with that fierce, protective intensity that melts your knees.</p>
+                <p><span class="word-gold">"Anywhere,"</span> he says. "As long as it's just us."</p>
+                <br>
+                <span class="handwritten" style="text-align: center; font-size: 3rem;">Fin.</span>
             </div>
         </section>
         
